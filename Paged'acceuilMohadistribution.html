@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="crm-html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moha Distribution - Mon Retour & Feedback</title>
+    
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', 'Cairo', sans-serif; background-color: #F0F9FF; }
+        .star-active { fill: #FACC15; color: #FACC15; }
+        .star-inactive { fill: transparent; color: #D1D5DB; }
+        
+        /* Animation pour l'apparition des tags */
+        .fade-in-up {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Styles Impression */
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; }
+            .card { border: 1px solid #eee; shadow: none; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <!-- HEADER / NAVIGATION (no-print) -->
+        <header class="flex justify-between items-center mb-8 no-print">
+            <div class="flex items-center gap-2">
+                <div class="bg-[#0077B6] p-2 rounded-lg text-white">
+                    <i data-lucide="droplets"></i>
+                </div>
+                <span class="font-bold text-[#03045E] text-xl">Moha CRM</span>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="toggleLang()" class="text-sm font-semibold text-[#0077B6]">FR / AR</button>
+                <a href="#" class="bg-white border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition">Retour à la liste</a>
+            </div>
+        </header>
+
+        <!-- RÉCAPITULATIF RETOUR -->
+        <div class="bg-white rounded-2xl shadow-sm border border-blue-100 p-6 mb-6 card">
+            <div class="flex flex-col md:flex-row justify-between gap-4 mb-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Référence Retour</span>
+                    <h1 class="text-2xl font-bold text-[#03045E]">BR-2025-9842</h1>
+                </div>
+                <div class="text-right">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                        <span class="w-2 h-2 mr-2 bg-green-500 rounded-full"></span> Clôturé le 24/05/2025
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 border-t pt-6">
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">Produit</p>
+                    <p class="font-semibold">Eau Minérale 5L</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">Quantité</p>
+                    <p class="font-semibold">12 Unités</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">Motif</p>
+                    <p class="font-semibold">Défaut Bouchon</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">Action prise</p>
+                    <p class="font-semibold text-[#0077B6]">Remplacement effectué</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPOSANT FEEDBACK (SECTION 7) -->
+        <section id="feedback-widget" class="bg-white rounded-2xl shadow-lg border-2 border-blue-50 p-6 md:p-8 no-print">
+            <div id="feedback-form">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="p-2 bg-yellow-50 rounded-lg text-yellow-600">
+                        <i data-lucide="star"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-[#03045E]" id="t-feedback-title">Évaluez notre service</h2>
+                        <span class="text-xs text-gray-400">Optionnel • Votre avis nous aide à grandir</span>
+                    </div>
+                </div>
+
+                <!-- Critère 1 -->
+                <div class="mb-8">
+                    <p class="text-sm font-bold text-gray-700 mb-3" id="t-crit-1">Rapidité de traitement</p>
+                    <div class="flex items-center gap-2">
+                        <div class="flex star-group" data-group="rapidite">
+                            <button onclick="setRating('rapidite', 1)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('rapidite', 2)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('rapidite', 3)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('rapidite', 4)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('rapidite', 5)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                        </div>
+                        <span class="text-xs font-medium text-gray-400 italic rating-label ml-2"></span>
+                    </div>
+                </div>
+
+                <!-- Critère 2 -->
+                <div class="mb-8">
+                    <p class="text-sm font-bold text-gray-700 mb-3" id="t-crit-2">Qualité de la prise en charge</p>
+                    <div class="flex items-center gap-2">
+                        <div class="flex star-group" data-group="qualite">
+                            <button onclick="setRating('qualite', 1)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('qualite', 2)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('qualite', 3)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('qualite', 4)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('qualite', 5)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                        </div>
+                        <span class="text-xs font-medium text-gray-400 italic rating-label ml-2"></span>
+                    </div>
+                </div>
+
+                <!-- Critère 3 -->
+                <div class="mb-8">
+                    <p class="text-sm font-bold text-gray-700 mb-3" id="t-crit-3">Facilité d'utilisation du CRM</p>
+                    <div class="flex items-center gap-2">
+                        <div class="flex star-group" data-group="facilite">
+                            <button onclick="setRating('facilite', 1)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('facilite', 2)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('facilite', 3)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('facilite', 4)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                            <button onclick="setRating('facilite', 5)" class="star-btn p-1 outline-none"><i data-lucide="star" class="w-8 h-8 star-inactive"></i></button>
+                        </div>
+                        <span class="text-xs font-medium text-gray-400 italic rating-label ml-2"></span>
+                    </div>
+                </div>
+
+                <!-- Tags Négatifs (si note <= 3) -->
+                <div id="negative-tags" class="hidden mb-8 p-4 bg-red-50 rounded-xl border border-red-100 fade-in-up">
+                    <p class="text-sm font-bold text-red-800 mb-3">Qu'est-ce qui n'a pas été ?</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="toggleTag(this)" class="px-3 py-1.5 rounded-full border border-red-200 bg-white text-xs font-medium text-red-700 hover:bg-red-100 transition">Délai trop long</button>
+                        <button onclick="toggleTag(this)" class="px-3 py-1.5 rounded-full border border-red-200 bg-white text-xs font-medium text-red-700 hover:bg-red-100 transition">Réponse insuffisante</button>
+                        <button onclick="toggleTag(this)" class="px-3 py-1.5 rounded-full border border-red-200 bg-white text-xs font-medium text-red-700 hover:bg-red-100 transition">Formulaire compliqué</button>
+                        <button onclick="toggleTag(this)" class="px-3 py-1.5 rounded-full border border-red-200 bg-white text-xs font-medium text-red-700 hover:bg-red-100 transition">Problème non résolu</button>
+                    </div>
+                </div>
+
+                <!-- Commentaire -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-bold text-gray-700">Commentaire libre</label>
+                        <span id="char-count" class="text-xs text-gray-400">0/300</span>
+                    </div>
+                    <textarea maxlength="300" oninput="updateCount(this)" class="w-full h-24 p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#0077B6] focus:border-transparent outline-none resize-none text-sm transition" placeholder="Comment pouvons-nous nous améliorer ?"></textarea>
+                </div>
+
+                <!-- Footer Action -->
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-[#0077B6] focus:ring-[#0077B6]">
+                        <span class="text-sm text-gray-500 group-hover:text-gray-700 transition">Soumettre anonymement</span>
+                    </label>
+                    <button id="btn-submit" disabled onclick="submitFeedback()" class="w-full md:w-auto px-8 py-3 bg-gray-200 text-gray-400 font-bold rounded-xl transition-all cursor-not-allowed">
+                        Envoyer mon avis
+                    </button>
+                </div>
+            </div>
+
+            <!-- État de succès (Caché par défaut) -->
+            <div id="success-message" class="hidden text-center py-8 fade-in-up">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-4">
+                    <i data-lucide="check" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-xl font-bold text-[#03045E] mb-2">Merci pour votre avis !</h3>
+                <p class="text-gray-500 mb-6">Votre feedback est essentiel pour maintenir la pureté de notre service.</p>
+                <button onclick="location.reload()" class="text-[#0077B6] font-semibold text-sm underline hover:text-[#00B4D8]">Modifier mon avis (48h)</button>
+            </div>
+        </section>
+
+        <!-- SECTION IMPRESSION PDF (Cachée à l'écran) -->
+        <div class="print-only mt-20 pt-10 border-t-2 border-dashed border-[#0077B6]">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h2 class="text-lg font-bold text-[#0077B6] mb-2">VOTRE AVIS COMPTE</h2>
+                    <p class="text-sm text-gray-600 mb-4">Entourez votre note (1 = Insatisfait | 5 = Excellent)</p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <p>Rapidité : ○ ○ ○ ○ ○</p>
+                        <p>Qualité : ○ ○ ○ ○ ○</p>
+                        <p>Facilité : ○ ○ ○ ○ ○</p>
+                    </div>
+                    <div class="w-full h-20 border border-gray-300 rounded p-2 text-xs text-gray-400">Commentaires :</div>
+                </div>
+                <div class="text-center">
+                    <div class="w-24 h-24 bg-gray-200 mx-auto mb-2 flex items-center justify-center">
+                        <i data-lucide="qr-code" class="w-16 h-16 text-gray-400"></i>
+                    </div>
+                    <p class="text-[8px] uppercase font-bold text-[#0077B6]">Scanner pour noter en ligne</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialisation Lucide
+        lucide.createIcons();
+
+        // Gestion des notes
+        let ratings = { rapidite: 0, qualite: 0, facilite: 0 };
+        const labels = {
+            rapidite: ["Très lent", "Lent", "Correct", "Rapide", "Excellent !"],
+            qualite: ["Très insatisfait", "Insatisfait", "Satisfait", "Très satisfait", "Excellent !"],
+            facilite: ["Très difficile", "Difficile", "Acceptable", "Facile", "Très facile"]
+        };
+
+        function setRating(group, value) {
+            ratings[group] = value;
+            const container = document.querySelector(`[data-group="${group}"]`);
+            const stars = container.querySelectorAll('.star-btn i');
+            const label = container.parentElement.querySelector('.rating-label');
+
+            stars.forEach((star, index) => {
+                if (index < value) {
+                    star.classList.remove('star-inactive');
+                    star.classList.add('star-active');
+                } else {
+                    star.classList.remove('star-active');
+                    star.classList.add('star-inactive');
+                }
+            });
+
+            label.innerText = labels[group][value - 1];
+            label.classList.remove('text-gray-400');
+            label.classList.add('text-[#0077B6]', 'font-bold');
+
+            checkLogic();
+        }
+
+        function checkLogic() {
+            const avg = (ratings.rapidite + ratings.qualite + ratings.facilite) / 3;
+            const tagBox = document.getElementById('negative-tags');
+            const btnSubmit = document.getElementById('btn-submit');
+
+            // Afficher tags si note globale <= 3
+            if (avg > 0 && avg <= 3) {
+                tagBox.classList.remove('hidden');
+            } else {
+                tagBox.classList.add('hidden');
+            }
+
+            // Activer bouton si tous les critères sont notés
+            if (ratings.rapidite > 0 && ratings.qualite > 0 && ratings.facilite > 0) {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove('bg-gray-200', 'text-gray-400', 'cursor-not-allowed');
+                btnSubmit.classList.add('bg-[#0077B6]', 'text-white', 'hover:bg-[#00B4D8]', 'shadow-lg');
+            }
+        }
+
+        function toggleTag(btn) {
+            btn.classList.toggle('bg-[#0077B6]');
+            btn.classList.toggle('text-white');
+            btn.classList.toggle('border-transparent');
+        }
+
+        function updateCount(textarea) {
+            const count = document.getElementById('char-count');
+            count.innerText = `${textarea.value.length}/300`;
+        }
+
+        function submitFeedback() {
+            const btn = document.getElementById('btn-submit');
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto"></i>`;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                document.getElementById('feedback-form').classList.add('hidden');
+                document.getElementById('success-message').classList.remove('hidden');
+            }, 1200);
+        }
+
+        function toggleLang() {
+            const html = document.getElementById('crm-html');
+            const isFr = html.dir === 'ltr';
+            html.dir = isFr ? 'rtl' : 'ltr';
+            html.lang = isFr ? 'ar' : 'fr';
+            // Note: En JS pur, il faudrait mapper tous les IDs de texte, 
+            // ici on simule juste le basculement structurel.
+        }
+    </script>
+</body>
+</html>

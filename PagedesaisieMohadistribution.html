@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="moha-app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moha Distribution - Gestion des Retours</title>
+    
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #03045E; }
+        [dir="rtl"] body { font-family: 'Cairo', sans-serif; }
+
+        .water-gradient { background: linear-gradient(135deg, #0077B6 0%, #00B4D8 100%); }
+        
+        /* Sticky Footer Animation */
+        .sticky-bar {
+            box-shadow: 0 -4px 20px rgba(0, 119, 182, 0.1);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* Styles d'impression (A4) */
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; padding: 0; margin: 0; }
+            .printable-page {
+                padding: 20px;
+                width: 100%;
+                border: none !important;
+            }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body class="min-h-screen pb-32">
+
+    <!-- HEADER (no-print) -->
+    <header class="bg-white border-b sticky top-0 z-40 no-print">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="water-gradient p-2 rounded-lg text-white">
+                    <i data-lucide="droplets" class="w-6 h-6"></i>
+                </div>
+                <h1 class="font-bold text-xl tracking-tight">Moha Distribution</h1>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button onclick="toggleLang()" class="text-sm font-bold text-[#0077B6] px-3 py-1 border rounded-md hover:bg-blue-50 transition">
+                    FR/AR
+                </button>
+                <div class="flex items-center gap-2 border-l pl-4">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-[#0077B6] font-bold">JD</div>
+                    <span class="text-sm font-medium hidden md:block">Jean Dupont</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 no-print">
+        
+        <!-- SECTION A: BANDEAU BIENVENUE -->
+        <section class="mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-[#03045E]" id="txt-welcome">Bonjour Jean, bienvenue sur votre espace retours</h2>
+                    <p class="text-gray-500 text-sm">Client N° CLI-2025-0842 • <span class="text-green-600 font-medium">Compte Actif</span></p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-blue-50 flex-1 min-w-[120px]">
+                        <p class="text-xs text-gray-400 uppercase font-bold">Soumis</p>
+                        <p class="text-2xl font-bold">12</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-blue-50 flex-1 min-w-[120px]">
+                        <p class="text-xs text-gray-400 uppercase font-bold">En cours</p>
+                        <p class="text-2xl font-bold text-blue-500">03</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-blue-50 flex-1 min-w-[120px]">
+                        <p class="text-xs text-gray-400 uppercase font-bold">Validés</p>
+                        <p class="text-2xl font-bold text-green-500">09</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION B: FORMULAIRE DE RETOUR -->
+        <div class="bg-white rounded-3xl shadow-xl shadow-blue-900/5 border border-blue-50 overflow-hidden">
+            <div class="p-6 md:p-8 border-b border-gray-50 flex items-center gap-3 bg-gray-50/50">
+                <i data-lucide="file-plus" class="text-[#0077B6]"></i>
+                <h3 class="font-bold text-lg">Nouveau Bon de Retour</h3>
+            </div>
+
+            <form id="returnForm" class="p-6 md:p-8 space-y-8">
+                <!-- Étape 1 : Infos Générales -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">N° Commande</label>
+                        <input type="text" placeholder="CMD-2025-XXXX" class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#0077B6] outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Date Livraison</label>
+                        <input type="date" class="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#0077B6] outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Canal</label>
+                        <select class="w-full p-3 rounded-xl border border-gray-200 outline-none">
+                            <option>Vente Directe</option>
+                            <option>Distributeur</option>
+                            <option>E-commerce</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Priorité</label>
+                        <div class="flex gap-2">
+                            <button type="button" class="flex-1 py-3 text-xs font-bold rounded-xl border border-blue-100 bg-blue-50 text-[#0077B6]">NORMALE</button>
+                            <button type="button" class="flex-1 py-3 text-xs font-bold rounded-xl border border-gray-100 text-gray-400">HAUTE</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Étape 2 : Tableau Produits -->
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[800px]">
+                        <thead>
+                            <tr class="text-left text-xs font-bold text-gray-400 uppercase border-b">
+                                <th class="pb-4">Produit & Réf</th>
+                                <th class="pb-4">Qté Commandée</th>
+                                <th class="pb-4">Qté à Retourner</th>
+                                <th class="pb-4">Motif du retour</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50" id="product-rows">
+                            <!-- Les lignes seront générées par JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Étape 3 : Commentaires & Photos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Observations (Max 500 car.)</label>
+                        <textarea class="w-full h-32 p-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-[#0077B6] outline-none resize-none" placeholder="Précisez les circonstances..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Photos justificatives (Max 3)</label>
+                        <div class="border-2 border-dashed border-blue-100 rounded-2xl h-32 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-blue-50 transition text-blue-400">
+                            <i data-lucide="camera"></i>
+                            <span class="text-xs font-bold">Cliquez pour ajouter des photos</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- STICKY RÉCAP BAR (no-print) -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t z-50 p-4 sticky-bar no-print">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-8">
+                <div>
+                    <p class="text-xs text-gray-400 font-bold uppercase">Articles à retourner</p>
+                    <p class="text-2xl font-bold text-[#0077B6]" id="total-units">0 Unités</p>
+                </div>
+                <div class="hidden md:block h-10 w-px bg-gray-200"></div>
+                <div class="hidden md:block">
+                    <p class="text-xs text-gray-400 font-bold uppercase">N° de bon provisoire</p>
+                    <p class="font-mono font-bold">BR-2025-XXXX</p>
+                </div>
+            </div>
+            <div class="flex gap-4 w-full md:w-auto">
+                <button class="flex-1 md:px-8 py-4 text-sm font-bold text-gray-500 hover:bg-gray-100 rounded-2xl transition">Réinitialiser</button>
+                <button onclick="simulateSubmit()" class="flex-[2] md:px-12 py-4 text-sm font-bold text-white water-gradient rounded-2xl shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-95 transition-all">
+                    Valider le Bon de Retour
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BON DE RETOUR IMPRIMABLE (print-only) -->
+    <div class="print-only printable-page bg-white p-8" id="print-area">
+        <div class="flex justify-between items-start border-b-2 border-black pb-6 mb-8">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-blue-600 rounded flex items-center justify-center text-white font-bold">M</div>
+                <div>
+                    <h1 class="text-2xl font-bold">MOHA DISTRIBUTION</h1>
+                    <p class="text-[10px]">Production & Distribution d'Eau Minérale Naturelle</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <h2 class="text-xl font-bold">BON DE RETOUR N° BR-2025-4502</h2>
+                <p class="text-sm">Date d'émission : <span id="print-date"></span></p>
+                <p class="text-xs font-bold text-blue-600">STATUT : EN ATTENTE DE VALIDATION</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8 mb-8">
+            <div class="border p-4 rounded">
+                <h3 class="text-xs font-bold uppercase border-b mb-2">Informations Client</h3>
+                <p class="font-bold">Jean Dupont (Ets. Larbi)</p>
+                <p class="text-sm">N° Client : CLI-2025-0842</p>
+                <p class="text-sm">Adresse : 124 Blvd Zerktouni, Casablanca</p>
+                <p class="text-sm">Tél : 06 61 00 00 00</p>
+            </div>
+            <div class="border p-4 rounded">
+                <h3 class="text-xs font-bold uppercase border-b mb-2">Référence Commande</h3>
+                <p class="text-sm">Commande N° : CMD-2025-9842</p>
+                <p class="text-sm">Livrée le : 14/05/2025</p>
+                <p class="text-sm">Canal : Vente Directe</p>
+            </div>
+        </div>
+
+        <table class="w-full border-collapse mb-8">
+            <thead>
+                <tr class="bg-gray-100 text-left text-xs uppercase font-bold">
+                    <th class="border p-2">Réf</th>
+                    <th class="border p-2">Désignation Produit</th>
+                    <th class="border p-2 text-center">Qté Retour</th>
+                    <th class="border p-2">Motif</th>
+                </tr>
+            </thead>
+            <tbody id="print-rows">
+                <!-- Rempli par JS -->
+            </tbody>
+        </table>
+
+        <div class="grid grid-cols-3 gap-6 mt-12 text-center h-32">
+            <div class="border rounded p-2">
+                <p class="text-[10px] font-bold uppercase mb-10">Le Client</p>
+                <p class="text-[8px] text-gray-300">Signature & Cachet</p>
+            </div>
+            <div class="border rounded p-2">
+                <p class="text-[10px] font-bold uppercase mb-10">Livreur / Agent</p>
+                <p class="text-[8px] text-gray-300">Signature & Nom</p>
+            </div>
+            <div class="border rounded p-2 bg-gray-50 flex items-center justify-center">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gray-200 mx-auto mb-1"></div>
+                    <p class="text-[8px] font-bold uppercase">QR Code de Suivi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const PRODUCTS = [
+            { id: 'MD-033', name: 'Eau 0.33 L', pack: 'Carton 24u', cmd: 10 },
+            { id: 'MD-050', name: 'Eau 0.5 L', pack: 'Carton 12u', cmd: 20 },
+            { id: 'MD-150', name: 'Eau 1.5 L', pack: 'Carton 6u', cmd: 15 },
+            { id: 'MD-005', name: 'Eau 5 L', pack: 'Bidon', cmd: 50 },
+            { id: 'MD-020', name: 'Eau 20 L', pack: 'Bonbonne', cmd: 8 },
+            { id: 'MD-100', name: 'Eau 100 L', pack: 'Citerne', cmd: 2 }
+        ];
+
+        const MOTIFS = [
+            "Produit défectueux / bouteille endommagée",
+            "Date de péremption dépassée",
+            "Erreur de commande",
+            "Surstock",
+            "Non-conformité qualité",
+            "Problème de scellage",
+            "Autre"
+        ];
+
+        // Génération initiale du tableau
+        const tbody = document.getElementById('product-rows');
+        PRODUCTS.forEach((p, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="py-4">
+                    <p class="font-bold text-[#03045E]">${p.name}</p>
+                    <p class="text-xs text-gray-400">${p.id} • ${p.pack}</p>
+                </td>
+                <td class="py-4 font-semibold">${p.cmd}</td>
+                <td class="py-4">
+                    <input type="number" value="0" min="0" max="${p.cmd}" 
+                           onchange="updateTotal()" 
+                           class="qty-input w-24 p-2 border rounded-xl focus:ring-2 focus:ring-[#0077B6] outline-none">
+                </td>
+                <td class="py-4">
+                    <select class="w-full p-2 bg-white border border-gray-100 rounded-xl outline-none text-sm">
+                        <option value="">Sélectionner un motif...</option>
+                        ${MOTIFS.map(m => `<option value="${m}">${m}</option>`).join('')}
+                    </select>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll('.qty-input').forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+            document.getElementById('total-units').innerText = `${total} Unités`;
+        }
+
+        function simulateSubmit() {
+            const total = parseInt(document.getElementById('total-units').innerText);
+            if(total === 0) {
+                alert("Veuillez saisir au moins une quantité à retourner.");
+                return;
+            }
+
+            // Préparation de la vue impression
+            const printRows = document.getElementById('print-rows');
+            printRows.innerHTML = '';
+            document.querySelectorAll('#product-rows tr').forEach((tr, i) => {
+                const qty = tr.querySelector('.qty-input').value;
+                const motif = tr.querySelector('select').value;
+                if(qty > 0) {
+                    printRows.innerHTML += `
+                        <tr class="text-sm">
+                            <td class="border p-2">${PRODUCTS[i].id}</td>
+                            <td class="border p-2">${PRODUCTS[i].name}</td>
+                            <td class="border p-2 text-center font-bold">${qty}</td>
+                            <td class="border p-2">${motif || '-'}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            document.getElementById('print-date').innerText = new Date().toLocaleDateString('fr-FR');
+            
+            window.print();
+        }
+
+        function toggleLang() {
+            const html = document.getElementById('moha-app');
+            const isFr = html.dir === 'ltr';
+            html.dir = isFr ? 'rtl' : 'ltr';
+            html.lang = isFr ? 'ar' : 'fr';
+            
+            // Simulation simple des traductions
+            document.getElementById('txt-welcome').innerText = isFr 
+                ? "مرحباً جان، أهلاً بك في مساحة المرتجعات الخاصة بك" 
+                : "Bonjour Jean, bienvenue sur votre espace retours";
+        }
+    </script>
+</body>
+</html>

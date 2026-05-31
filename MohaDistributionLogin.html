@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="main-html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moha Distribution - Connexion CRM</title>
+    
+    <!-- Polices : Inter (Latin) & Cairo (Arabe) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --primary: #0077B6;
+            --secondary: #00B4D8;
+            --accent: #90E0EF;
+            --bg-light: #F0F9FF;
+            --text-dark: #03045E;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        [dir="rtl"] body {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .water-pattern {
+            background-color: #0077B6;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Cpath d='M0 100 Q 100 50 200 100 T 400 100 V 200 H 0 Z' fill='%2300B4D8' fill-opacity='0.2'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: bottom;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex overflow-x-hidden">
+
+    <!-- COLONNE GAUCHE : BRAND PANEL (Hidden on Mobile) -->
+    <aside class="hidden lg:flex w-[40%] water-pattern text-white flex-col justify-between p-12 relative overflow-hidden">
+        <div class="z-10">
+            <div class="flex items-center gap-4 mb-12 animate-float">
+                <div class="bg-white p-3 rounded-2xl shadow-lg">
+                    <i data-lucide="droplets" class="text-[#0077B6] w-10 h-10"></i>
+                </div>
+                <h1 class="text-3xl font-bold tracking-tight">Moha Distribution</h1>
+            </div>
+
+            <div class="space-y-6">
+                <h2 id="txt-slogan" class="text-4xl font-bold leading-tight">
+                    L'eau pure, <br>le service excellence
+                </h2>
+                <p id="txt-welcome" class="text-blue-100 text-lg">Bienvenue sur votre espace client CRM dédié à la gestion de vos retours.</p>
+                
+                <!-- Gamme de produits -->
+                <div class="flex flex-wrap gap-2 pt-6">
+                    <span class="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm">0.33L</span>
+                    <span class="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm">0.5L</span>
+                    <span class="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm">1.5L</span>
+                    <span class="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm">5L</span>
+                    <span class="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm">20L</span>
+                    <span class="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm">100L</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="z-10 text-sm opacity-70">
+            © 2025 Moha Distribution — Qualité Certifiée
+        </div>
+
+        <!-- Décoration goutte d'eau -->
+        <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+    </aside>
+
+    <!-- COLONNE DROITE : FORMULAIRE -->
+    <main class="flex-1 flex flex-col items-center justify-center p-6 relative">
+        
+        <!-- Language Switcher -->
+        <div class="absolute top-6 right-6 flex gap-2">
+            <button onclick="switchLang('fr')" class="px-3 py-1.5 rounded-lg border text-sm font-semibold transition hover:bg-gray-50 bg-white" id="btn-fr">FR</button>
+            <button onclick="switchLang('ar')" class="px-3 py-1.5 rounded-lg border text-sm font-semibold transition hover:bg-gray-50 bg-white" id="btn-ar">AR</button>
+        </div>
+
+        <!-- Card Login -->
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl shadow-blue-900/10 p-8 lg:p-10 border border-blue-50">
+            <div class="text-center lg:text-left mb-10" id="header-text">
+                <h3 id="txt-title" class="text-2xl font-bold text-[#03045E] mb-2">Connexion à votre espace</h3>
+                <p id="txt-subtitle" class="text-gray-500">Gérez vos retours et réclamations en toute simplicité</p>
+            </div>
+
+            <form id="loginForm" class="space-y-6">
+                <!-- Identifiant -->
+                <div>
+                    <label id="lbl-id" class="block text-sm font-semibold text-gray-700 mb-2">Email ou N° client</label>
+                    <div class="relative">
+                        <i data-lucide="mail" class="absolute left-3 top-3.5 text-gray-400 w-5 h-5"></i>
+                        <input type="text" placeholder="votre@email.com" 
+                            class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0077B6] focus:bg-white outline-none transition-all">
+                    </div>
+                </div>
+
+                <!-- Mot de passe -->
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <label id="lbl-pass" class="block text-sm font-semibold text-gray-700">Mot de passe</label>
+                        <a href="#" id="txt-forgot" class="text-sm font-bold text-[#0077B6] hover:underline">Mot de passe oublié ?</a>
+                    </div>
+                    <div class="relative">
+                        <i data-lucide="lock" class="absolute left-3 top-3.5 text-gray-400 w-5 h-5"></i>
+                        <input type="password" id="passwordInput" placeholder="••••••••" 
+                            class="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0077B6] focus:bg-white outline-none transition-all">
+                        <button type="button" onclick="togglePassword()" class="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600">
+                            <i data-lucide="eye" id="eyeIcon" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember" class="w-4 h-4 text-[#0077B6] border-gray-300 rounded focus:ring-[#0077B6]">
+                    <label for="remember" id="lbl-remember" class="ml-2 text-sm text-gray-600">Se souvenir de moi (30 jours)</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary w-full text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-200 flex items-center justify-center gap-2">
+                    <span id="txt-btn-login">Se connecter</span>
+                </button>
+
+                <!-- Separator -->
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-gray-100"></div>
+                    <span class="flex-shrink mx-4 text-gray-400 text-xs uppercase" id="txt-or">ou</span>
+                    <div class="flex-grow border-t border-gray-100"></div>
+                </div>
+
+                <!-- Activation link -->
+                <p class="text-center text-sm text-gray-600">
+                    <span id="txt-first">Première connexion ?</span> 
+                    <a href="#" class="text-[#0077B6] font-bold hover:underline ml-1" id="txt-activate">Activez votre compte →</a>
+                </p>
+            </form>
+        </div>
+        
+        <!-- Footer Mobile -->
+        <p class="mt-8 text-sm text-gray-400 lg:hidden text-center">
+            © 2025 Moha Distribution
+        </p>
+    </main>
+
+    <script>
+        // Initialisation des icônes Lucide
+        lucide.createIcons();
+
+        // Gestion du mot de passe
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        // Dictionnaire des traductions
+        const translations = {
+            fr: {
+                title: "Connexion à votre espace",
+                subtitle: "Gérez vos retours et réclamations en toute simplicité",
+                slogan: "L'eau pure, <br>le service excellence",
+                welcome: "Bienvenue sur votre espace client CRM dédié à la gestion de vos retours.",
+                labelId: "Email ou N° client",
+                labelPass: "Mot de passe",
+                forgot: "Mot de passe oublié ?",
+                remember: "Se souvenir de moi (30 jours)",
+                btnLogin: "Se connecter",
+                or: "ou",
+                first: "Première connexion ?",
+                activate: "Activez votre compte →"
+            },
+            ar: {
+                title: "تسجيل الدخول إلى حسابك",
+                subtitle: "إدارة مرتجعاتك وشكاواك بكل سهولة",
+                slogan: "مياه نقية، <br>خدمة متميزة",
+                welcome: "مرحبًا بكم في مساحة عملاء CRM الخاصة بإدارة المرتجعات.",
+                labelId: "البريد الإلكتروني أو رقم العميل",
+                labelPass: "كلمة المرور",
+                forgot: "نسيت كلمة المرور؟",
+                remember: "تذكرني (30 يومًا)",
+                btnLogin: "تسجيل الدخول",
+                or: "أو",
+                first: "أول اتصال؟",
+                activate: "تنشيط حسابك ←"
+            }
+        };
+
+        // Switch de langue
+        function switchLang(lang) {
+            const html = document.getElementById('main-html');
+            const data = translations[lang];
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            // Mise à jour des textes
+            document.getElementById('txt-title').innerText = data.title;
+            document.getElementById('txt-subtitle').innerText = data.subtitle;
+            document.getElementById('txt-slogan').innerHTML = data.slogan;
+            document.getElementById('txt-welcome').innerText = data.welcome;
+            document.getElementById('lbl-id').innerText = data.labelId;
+            document.getElementById('lbl-pass').innerText = data.labelPass;
+            document.getElementById('txt-forgot').innerText = data.forgot;
+            document.getElementById('lbl-remember').innerText = data.remember;
+            document.getElementById('txt-btn-login').innerText = data.btnLogin;
+            document.getElementById('txt-or').innerText = data.or;
+            document.getElementById('txt-first').innerText = data.first;
+            document.getElementById('txt-activate').innerText = data.activate;
+
+            // Styles boutons langue
+            document.getElementById('btn-fr').classList.toggle('bg-blue-600', lang === 'fr');
+            document.getElementById('btn-fr').classList.toggle('text-white', lang === 'fr');
+            document.getElementById('btn-ar').classList.toggle('bg-blue-600', lang === 'ar');
+            document.getElementById('btn-ar').classList.toggle('text-white', lang === 'ar');
+        }
+
+        // Animation simple au submit
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.querySelector('.btn-primary');
+            btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            setTimeout(() => {
+                alert("Tentative de connexion... (Mode démo)");
+                location.reload();
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
